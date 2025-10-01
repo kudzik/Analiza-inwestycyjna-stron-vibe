@@ -84,32 +84,204 @@ def get_system_prompt() -> str:
         str: System prompt
     """
     return """Jesteś ekspertem w dziedzinie analizy inwestycyjnej i tworzenia
-perswazyjnych materiałów sprzedażowych. Twoim zadaniem jest przeanalizowanie
+profesjonalnych materiałów inwestycyjnych. Twoim zadaniem jest przeanalizowanie
 treści strony internetowej i wygenerowanie profesjonalnej broszury
 inwestycyjnej w języku polskim.
 
 BROSZURA MUSI ZAWIERAĆ NASTĘPUJĄCE SEKCJE:
 
-1. **Tytuł Broszury** - Atrakcyjny, perswazyjny tytuł zachęcający do inwestycji
-2. **Podsumowanie Inwestycyjne** - Krótkie (3-4 zdania) perswazyjne uzasadnienie,
-   dlaczego warto zainwestować
-3. **Propozycje Wartości** - Wypunktowane kluczowe korzyści i przewagi
+1. **Tytuł Broszury** - Profesjonalny, atrakcyjny tytuł zachęcający do
+   inwestycji
+2. **Executive Summary** - Zwięzłe podsumowanie (4-5 zdań) z kluczowymi
+   informacjami inwestycyjnymi i perspektywami rozwoju
+3. **Analiza Rynku i Pozycji** - Analiza pozycji firmy/projektu na rynku
+4. **Propozycje Wartości** - Wypunktowane kluczowe korzyści i przewagi
    konkurencyjne
-4. **Kluczowe Dane** - 3-5 najważniejszych danych/faktów ze strony
-   (osiągnięcia, wielkość rynku, statystyki)
-5. **Kategorie/Obszary** - Podział treści na logiczne kategorie
-   biznesowe/technologiczne
-6. **Kluczowe Ryzyka** - 2-3 potencjalne ryzyka wynikające z analizy treści
+5. **Kluczowe Metryki i Dane** - Najważniejsze dane finansowe, statystyki,
+   osiągnięcia
+6. **Analiza Podstron** - Podsumowanie kluczowych informacji z
+   przeanalizowanych podstron
+7. **Model Biznesowy** - Opis sposobu generowania przychodów i strategii
+   rozwoju
+8. **Zespół i Kompetencje** - Informacje o zespole, doświadczeniu i
+   kompetencjach
+9. **Ryzyka i Wyzwania** - 3-4 potencjalne ryzyka z oceną ich wpływu
+10. **Perspektywy Rozwoju** - Plany rozwoju, cele strategiczne i potencjał
+    wzrostu
+11. **Rekomendacja Inwestycyjna** - Końcowa rekomendacja z uzasadnieniem
 
 WYMAGANIA:
-- Ton: Sprzedażowy i perswazyjny, ukierunkowany na zachęcanie do inwestycji
-- Język: Profesjonalny polski
-- Format: Czysty Markdown z nagłówkami ##
-- Długość: Zwięzłe, ale kompletne sekcje
-- Skupienie: Na kluczowych danych inwestycyjnych i korzyściach biznesowych
+- Ton: Profesjonalny, analityczny, ale perswazyjny
+- Język: Profesjonalny polski biznesowy
+- Format: Czysty Markdown z nagłówkami ## i ###
+- Długość: Szczegółowe, ale zwięzłe sekcje (2-4 akapity każda)
+- Skupienie: Na danych inwestycyjnych, analizie rynku i perspektywach
+  rozwoju
+- Struktura: Logiczna, przejrzysta, profesjonalna
 
-Przeanalizuj podaną treść i wygeneruj broszurę zgodnie z powyższymi
-wytycznymi."""
+Przeanalizuj podaną treść i wygeneruj profesjonalną broszurę zgodnie z
+powyższymi wytycznymi."""
+
+
+def analyze_subpages_content(subpages_content: list) -> str:
+    """
+    Analizuje treść podstron i tworzy podsumowanie kluczowych informacji.
+
+    Args:
+        subpages_content: Lista treści z podstron
+
+    Returns:
+        str: Podsumowanie analizy podstron
+    """
+    if not subpages_content or not any(subpages_content):
+        return "Brak dostępnych podstron do analizy."
+
+    analysis = "=== ANALIZA PODSTRON ===\n\n"
+
+    for i, content in enumerate(subpages_content, 1):
+        if content:
+            # Podstawowe statystyki
+            word_count = len(content.split())
+            char_count = len(content)
+
+            analysis += f"**Podstrona {i}:**\n"
+            analysis += f"- Długość treści: {char_count} znaków, "
+            analysis += f"{word_count} słów\n"
+
+            # Próbuj wyodrębnić kluczowe słowa/frazy
+            key_phrases = extract_key_phrases(content)
+            if key_phrases:
+                analysis += "- Kluczowe tematy: "
+                analysis += f"{', '.join(key_phrases[:5])}\n"
+
+            analysis += "\n"
+
+    return analysis
+
+
+def extract_key_phrases(text: str, max_phrases: int = 10) -> list:
+    """
+    Wyodrębnia kluczowe frazy z tekstu.
+
+    Args:
+        text: Tekst do analizy
+        max_phrases: Maksymalna liczba fraz
+
+    Returns:
+        list: Lista kluczowych fraz
+    """
+    if not text:
+        return []
+
+    # Proste wyodrębnianie fraz na podstawie częstotliwości słów
+    words = text.lower().split()
+
+    # Usuń słowa stop
+    stop_words = {
+        "i",
+        "a",
+        "w",
+        "z",
+        "na",
+        "do",
+        "od",
+        "po",
+        "ze",
+        "się",
+        "że",
+        "jest",
+        "są",
+        "być",
+        "mieć",
+        "może",
+        "można",
+        "oraz",
+        "jak",
+        "tak",
+        "nie",
+        "ale",
+        "lub",
+        "the",
+        "and",
+        "or",
+        "but",
+        "in",
+        "on",
+        "at",
+        "to",
+        "for",
+        "of",
+        "with",
+        "by",
+        "from",
+        "up",
+        "about",
+        "into",
+        "through",
+        "during",
+        "before",
+        "after",
+        "above",
+        "below",
+        "between",
+        "among",
+        "is",
+        "are",
+        "was",
+        "were",
+    }
+
+    # Filtruj słowa
+    filtered_words = [
+        word for word in words if len(word) > 3 and word not in stop_words
+    ]
+
+    # Policz częstotliwość
+    word_freq: dict[str, int] = {}
+    for word in filtered_words:
+        word_freq[word] = word_freq.get(word, 0) + 1
+
+    # Sortuj według częstotliwości
+    sorted_words = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)
+
+    return [word for word, freq in sorted_words[:max_phrases]]
+
+
+def enhance_brochure_formatting(brochure_content: str) -> str:
+    """
+    Ulepsza formatowanie broszury dla bardziej profesjonalnego wyglądu.
+
+    Args:
+        brochure_content: Zawartość broszury
+
+    Returns:
+        str: Ulepszona broszura
+    """
+    if not brochure_content:
+        return brochure_content
+
+    # Dodaj nagłówek z metadanymi
+    enhanced_content = f"""# Broszura Inwestycyjna
+*Wygenerowana przez Inwestor Pro v1.0.0*
+*Data: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
+
+---
+
+"""
+    # Dodaj zawartość broszury
+    enhanced_content += brochure_content
+
+    # Dodaj stopkę
+    enhanced_content += f"""
+
+---
+
+*Broszura wygenerowana automatycznie przez system Inwestor Pro*
+*Wszystkie informacje pochodzą z publicznie dostępnych źródeł internetowych*
+*Data generowania: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
+"""
+
+    return enhanced_content
 
 
 def generate_brochure(text_content: str, api_key: str) -> Optional[str]:
@@ -144,11 +316,16 @@ def generate_brochure(text_content: str, api_key: str) -> Optional[str]:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=messages,
-            max_tokens=2000,
-            temperature=0.7,
+            max_tokens=3000,
+            temperature=0.6,
         )
 
-        return response.choices[0].message.content
+        brochure_content = response.choices[0].message.content
+
+        # Post-process broszurę dla lepszego formatowania
+        if brochure_content:
+            return enhance_brochure_formatting(brochure_content)
+        return None
 
     except openai.AuthenticationError:
         print("Blad: Nieprawidlowy klucz API OpenAI")
@@ -257,12 +434,12 @@ Przyklady uzycia:
                 subpage_text = clean_and_extract_text(subpage_html, subpage_url)
                 if subpage_text:
                     subpages_content.append(subpage_text)
-                    print(f"  ✓ Pobrano {len(subpage_text)} znakow")
+                    print(f"  [OK] Pobrano {len(subpage_text)} znakow")
                 else:
-                    print("  ✗ Nie udalo sie wyodrebnic tekstu")
+                    print("  [ERROR] Nie udalo sie wyodrebnic tekstu")
                     subpages_content.append("")
             else:
-                print("  ✗ Nie udalo sie pobrac zawartosci")
+                print("  [ERROR] Nie udalo sie pobrac zawartosci")
                 subpages_content.append("")
 
     # Połącz treść z głównej strony i podstron
@@ -271,13 +448,22 @@ Przyklady uzycia:
         main_clean_text, subpages_content, args.url
     )
 
+    # Dodaj analizę podstron
+    if subpages_content:
+        print("Analizowanie tresci z podstron...")
+        subpages_analysis = analyze_subpages_content(subpages_content)
+        combined_text += f"\n\n{subpages_analysis}"
+
     print(
         f"Pobrano i wyczyszczono {len(combined_text)} znakow tekstu "
         f"(glowna strona + {len(subpages_content)} podstron)."
     )
 
     if args.verbose:
-        print(f"Przykladowy tekst: {combined_text[:200]}...")
+        try:
+            print(f"Przykladowy tekst: {combined_text[:200]}...")
+        except UnicodeEncodeError:
+            print("Przykladowy tekst: [tekst zawiera znaki specjalne]")
 
     # Generuj broszurę inwestycyjną
     print("Generowanie broszury inwestycyjnej...")
@@ -446,7 +632,7 @@ def combine_content_from_pages(
     main_content: str, subpages_content: list, base_url: str
 ) -> str:
     """
-    Łączy treść z głównej strony i podstron.
+    Łączy treść z głównej strony i podstron w sposób zorganizowany.
 
     Args:
         main_content: Treść z głównej strony
@@ -456,13 +642,34 @@ def combine_content_from_pages(
     Returns:
         str: Połączona treść z wszystkich stron
     """
-    combined_content = (
-        f"=== TREŚĆ GŁÓWNEJ STRONY ({base_url}) ===\n\n{main_content}\n\n"
-    )
+    combined_content = f"""=== ANALIZA STRONY INTERNETOWEJ ===
+URL GŁÓWNEJ STRONY: {base_url}
+DATA ANALIZY: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
-    for i, subpage_content in enumerate(subpages_content, 1):
-        if subpage_content:
-            combined_content += f"=== TREŚĆ PODSTRONY {i} ===\n\n{subpage_content}\n\n"
+=== TREŚĆ GŁÓWNEJ STRONY ===
+{main_content}
+
+"""
+
+    # Dodaj informacje o podstronach
+    if subpages_content:
+        combined_content += "=== ANALIZA PODSTRON ===\n\n"
+
+        for i, subpage_content in enumerate(subpages_content, 1):
+            if subpage_content:
+                combined_content += f"--- PODSTRONA {i} ---\n{subpage_content}\n\n"
+            else:
+                combined_content += (
+                    f"--- PODSTRONA {i} ---\n[Brak dostępnej treści]\n\n"
+                )
+
+    # Dodaj podsumowanie struktury
+    combined_content += f"""=== PODSUMOWANIE STRUKTURY ===
+- Główna strona: {len(main_content)} znaków
+- Liczba przeanalizowanych podstron: {len([c for c in subpages_content if c])}
+- Łączna długość treści: {len(main_content) + sum(len(c) for c in subpages_content if c)} znaków
+
+"""
 
     return combined_content
 

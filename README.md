@@ -12,13 +12,18 @@ Inwestor Pro to aplikacja CLI napisana w Pythonie, która automatycznie analizuj
 - **Analiza podstron**: Automatyczne wykrywanie i pobieranie treści z podstron w obrębie tej samej domeny
 - **Czyszczenie danych**: Usuwanie elementów nawigacyjnych, reklam i nieistotnych treści
 - **Analiza AI**: Przetwarzanie przez OpenAI z perswazyjnym tonem
-- **Generowanie broszury**: Strukturalny plik Markdown z sekcjami:
+- **Generowanie broszury**: Profesjonalny plik Markdown z 11 szczegółowymi sekcjami:
   - Tytuł broszury
-  - Podsumowanie inwestycyjne
+  - Executive Summary
+  - Analiza Rynku i Pozycji
   - Propozycje wartości
-  - Kluczowe dane
-  - Kategorie/obszary
-  - Kluczowe ryzyka
+  - Kluczowe Metryki i Dane
+  - **Analiza Podstron** (nowa funkcjonalność)
+  - Model Biznesowy
+  - Zespół i Kompetencje
+  - Ryzyka i Wyzwania
+  - Perspektywy Rozwoju
+  - Rekomendacja Inwestycyjna
 
 ## Instalacja
 
@@ -126,10 +131,12 @@ Aplikacja została przetestowana na różnych typach stron internetowych:
 
 Wszystkie wygenerowane broszury spełniają wymagania:
 
-- ✅ **Ton sprzedażowy i perswazyjny**
-- ✅ **Wszystkie wymagane sekcje** (Tytuł, Podsumowanie, Propozycje Wartości, Kluczowe Dane, Kategorie, Ryzyka)
-- ✅ **Język polski**
-- ✅ **Format Markdown**
+- ✅ **Ton profesjonalny, analityczny i perswazyjny**
+- ✅ **11 szczegółowych sekcji** (Executive Summary, Analiza Rynku, Model Biznesowy, Zespół, Perspektywy, Rekomendacja)
+- ✅ **Analiza podstron** z wyodrębnianiem kluczowych tematów
+- ✅ **Profesjonalne formatowanie** z metadanymi i stopką
+- ✅ **Język polski biznesowy**
+- ✅ **Format Markdown z nagłówkami ## i ###**
 - ✅ **Struktura katalogów z datą**
 
 ### Parametry
@@ -146,27 +153,61 @@ Wszystkie wygenerowane broszury spełniają wymagania:
 Wygenerowana broszura zawiera następujące sekcje:
 
 ```markdown
-# Analiza Inwestycyjna: [Nazwa Firmy] – Wyjątkowa Szansa Rynkowa
+# Broszura Inwestycyjna
 
-## Podsumowanie Inwestycyjne
+_Wygenerowana przez Inwestor Pro v1.0.0_
+_Data: 2025-10-01 14:31:56_
 
-[Perswazyjne uzasadnienie inwestycji w 3-4 zdaniach]
+---
+
+## Tytuł Broszury
+
+**Inwestycja w Przyszłość: Odkryj Potencjał [Nazwa Firmy]**
+
+## Executive Summary
+
+[Zwięzłe podsumowanie (4-5 zdań) z kluczowymi informacjami inwestycyjnymi]
+
+## Analiza Rynku i Pozycji
+
+[Analiza pozycji firmy/projektu na rynku]
 
 ## Propozycje Wartości
 
 - [Kluczowe korzyści i przewagi konkurencyjne]
 
-## Kluczowe Dane
+## Kluczowe Metryki i Dane
 
-- [3-5 najważniejszych danych/faktów]
+- [Najważniejsze dane finansowe, statystyki, osiągnięcia]
 
-## Kategorie/Obszary
+## Analiza Podstron
 
-[Podział treści na logiczne kategorie biznesowe]
+[Podsumowanie kluczowych informacji z przeanalizowanych podstron]
 
-## Kluczowe Ryzyka
+## Model Biznesowy
 
-[2-3 potencjalne ryzyka wynikające z analizy]
+[Opis sposobu generowania przychodów i strategii rozwoju]
+
+## Zespół i Kompetencje
+
+[Informacje o zespole, doświadczeniu i kompetencjach]
+
+## Ryzyka i Wyzwania
+
+[3-4 potencjalne ryzyka z oceną ich wpływu]
+
+## Perspektywy Rozwoju
+
+[Plany rozwoju, cele strategiczne i potencjał wzrostu]
+
+## Rekomendacja Inwestycyjna
+
+[Końcowa rekomendacja z uzasadnieniem]
+
+---
+
+_Broszura wygenerowana automatycznie przez system Inwestor Pro_
+_Wszystkie informacje pochodzą z publicznie dostępnych źródeł internetowych_
 ```
 
 ## Struktura projektu
@@ -319,12 +360,14 @@ MIT License - zobacz plik [LICENSE](LICENSE) dla szczegółów.
 
 ## Changelog
 
-### v1.0.0 (Planowane)
+### v1.0.0 (Aktualna)
 
-- Pierwsza wersja MVP
-- Podstawowa funkcjonalność analizy stron
-- Generowanie broszur inwestycyjnych
-- Interfejs CLI
+- ✅ **Pierwsza wersja MVP** - Podstawowa funkcjonalność analizy stron
+- ✅ **Profesjonalne broszury** - 11 szczegółowych sekcji inwestycyjnych
+- ✅ **Analiza podstron** - Automatyczne wykrywanie i analiza podstron
+- ✅ **Interfejs CLI** - Pełna obsługa argumentów i opcji
+- ✅ **Ulepszone formatowanie** - Metadane, stopka, profesjonalny wygląd
+- ✅ **Lepsza analiza treści** - Wyodrębnianie kluczowych fraz i tematów
 
 ---
 

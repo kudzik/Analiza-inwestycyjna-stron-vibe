@@ -41,19 +41,24 @@ Aplikacja będzie narzędziem działającym w linii komend (CLI), które na pods
 | **FR2.0** | **Interfejs CLI**                    | Użytkownik musi mieć możliwość uruchomienia aplikacji z wiersza poleceń, podając wymagany URL (np. `python inwestor_pro.py --url https://przyklad.pl`). | Wysoki    |
 | **FR3.0** | **Analiza z OpenAI**                 | Aplikacja musi przesłać pobrany tekst do API OpenAI (model **`gpt-4-mini`**).                                                                           | Wysoki    |
 | **FR3.1** | **Wymagania Językowe**               | Otrzymany wynik musi być **w języku polskim**.                                                                                                          | Wysoki    |
-| **FR3.2** | **Ton i Styl**                       | Generowana broszura musi mieć **ton sprzedażowy i perswazyjny**, ukierunkowany na zachęcanie do inwestycji/zakupu.                                      | Wysoki    |
+| **FR3.2** | **Ton i Styl**                       | Generowana broszura musi mieć **ton profesjonalny, analityczny i perswazyjny**, ukierunkowany na zachęcanie do inwestycji/zakupu.                       | Wysoki    |
 | **FR4.0** | **Generowanie Broszury**             | Aplikacja musi zapisać wynik analizy w **pliku Markdown (.md)**.                                                                                        | Wysoki    |
 
 ### 4.2. Struktura Generowanej Broszury
 
-Wygenerowany plik Markdown musi zawierać następujące sekcje, bazujące na analizie strony:
+Wygenerowany plik Markdown musi zawierać następujące **11 szczegółowych sekcji**, bazujące na analizie strony:
 
-- **Tytuł Broszury:** (np. _„Analiza Inwestycyjna: [Nazwa Firmy] – Wyjątkowa Szansa Rynkowa”_)
-- **Podsumowanie Inwestycyjne (Investment Thesis):** Krótkie (max. 3-4 zdania) perswazyjne uzasadnienie, dlaczego warto zainwestować.
-- **Propozycje Wartości (Value Proposition):** Wypunktowane lub opisowe sekcje kluczowych korzyści i przewag konkurencyjnych (zgodnie ze stroną).
-- **Kluczowe Dane (Quick Summary):** Wydobycie 3-5 najważniejszych danych/faktów ze strony (np. osiągnięcia, wielkość rynku, kluczowe statystyki).
-- **Kategorie/Obszary:** Podział treści strony na logiczne, ogólne kategorie biznesowe/technologiczne.
-- **Kluczowe Ryzyka (Risks):** Zwięzłe określenie 2-3 potencjalnych ryzyk, wynikających z analizy treści (np. brak jasnej strategii, silna konkurencja).
+- **Tytuł Broszury:** Profesjonalny, atrakcyjny tytuł zachęcający do inwestycji
+- **Executive Summary:** Zwięzłe podsumowanie (4-5 zdań) z kluczowymi informacjami inwestycyjnymi
+- **Analiza Rynku i Pozycji:** Analiza pozycji firmy/projektu na rynku
+- **Propozycje Wartości:** Wypunktowane kluczowe korzyści i przewagi konkurencyjne
+- **Kluczowe Metryki i Dane:** Najważniejsze dane finansowe, statystyki, osiągnięcia
+- **Analiza Podstron:** Podsumowanie kluczowych informacji z przeanalizowanych podstron
+- **Model Biznesowy:** Opis sposobu generowania przychodów i strategii rozwoju
+- **Zespół i Kompetencje:** Informacje o zespole, doświadczeniu i kompetencjach
+- **Ryzyka i Wyzwania:** 3-4 potencjalne ryzyka z oceną ich wpływu
+- **Perspektywy Rozwoju:** Plany rozwoju, cele strategiczne i potencjał wzrostu
+- **Rekomendacja Inwestycyjna:** Końcowa rekomendacja z uzasadnieniem
 
 ---
 
