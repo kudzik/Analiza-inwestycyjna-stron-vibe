@@ -55,15 +55,15 @@
 
 ---
 
-### Faza 5: Generowanie Wyniku i Testowanie (Output & Testing)
+### Faza 5: Generowanie Wyniku i Testowanie (Output & Testing) ✅ UKOŃCZONA
 
 | Status | Krok    | Zadanie                                                                                                          | Priorytet |
 | :----: | :------ | :--------------------------------------------------------------------------------------------------------------- | :-------- |
-|   ⏳   | **5.1** | Zaimplementuj funkcję `save_markdown_file(filename, content)`.                                                   | Wysoki    |
-|   ⏳   | **5.2** | Ustaw logiczne nazewnictwo plików wyjściowych (np. `broszura_[nazwa_domeny].md`).                                | Średni    |
-|   ⏳   | **5.3** | Stwórz i wykonaj test integracyjny: Uruchom aplikację na przynajmniej **trzech różnych stronach internetowych**. | Wysoki    |
-|   ⏳   | **5.4** | **Weryfikacja jakości:** Sprawdź, czy wygenerowane broszury spełniają wymagania PRD (ton, sekcje, język polski). | Wysoki    |
-|   ⏳   | **5.5** | Ostateczna refaktoryzacja i linting kodu.                                                                        | Średni    |
+|   ✅   | **5.1** | Zaimplementuj funkcję `save_markdown_file(filename, content)`.                                                   | Wysoki    |
+|   ✅   | **5.2** | Ustaw logiczne nazewnictwo plików wyjściowych (np. `broszura_[nazwa_domeny].md`).                                | Średni    |
+|   ✅   | **5.3** | Stwórz i wykonaj test integracyjny: Uruchom aplikację na przynajmniej **trzech różnych stronach internetowych**. | Wysoki    |
+|   ✅   | **5.4** | **Weryfikacja jakości:** Sprawdź, czy wygenerowane broszury spełniają wymagania PRD (ton, sekcje, język polski). | Wysoki    |
+|   ✅   | **5.5** | Ostateczna refaktoryzacja i linting kodu.                                                                        | Średni    |
 
 ---
 

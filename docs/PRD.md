@@ -3,8 +3,8 @@
 ## 1. Nazwa Produktu i Wersja
 
 **Nazwa:** Inwestor Pro (Wersja 1.0 - MVP)
-**Właściciel Produktu:** (Wypełnić)
-**Data:** (Wypełnić)
+**Właściciel Produktu:** Artur Kud (kudzik@outlook.com)
+**Data:** 2025-10-01
 
 ---
 

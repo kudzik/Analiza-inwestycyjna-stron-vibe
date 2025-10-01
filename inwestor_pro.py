@@ -83,21 +83,21 @@ def get_system_prompt() -> str:
     Returns:
         str: System prompt
     """
-    return """Jesteś ekspertem w dziedzinie analizy inwestycyjnej i tworzenia 
-perswazyjnych materiałów sprzedażowych. Twoim zadaniem jest przeanalizowanie 
-treści strony internetowej i wygenerowanie profesjonalnej broszury 
+    return """Jesteś ekspertem w dziedzinie analizy inwestycyjnej i tworzenia
+perswazyjnych materiałów sprzedażowych. Twoim zadaniem jest przeanalizowanie
+treści strony internetowej i wygenerowanie profesjonalnej broszury
 inwestycyjnej w języku polskim.
 
 BROSZURA MUSI ZAWIERAĆ NASTĘPUJĄCE SEKCJE:
 
 1. **Tytuł Broszury** - Atrakcyjny, perswazyjny tytuł zachęcający do inwestycji
-2. **Podsumowanie Inwestycyjne** - Krótkie (3-4 zdania) perswazyjne uzasadnienie, 
+2. **Podsumowanie Inwestycyjne** - Krótkie (3-4 zdania) perswazyjne uzasadnienie,
    dlaczego warto zainwestować
-3. **Propozycje Wartości** - Wypunktowane kluczowe korzyści i przewagi 
+3. **Propozycje Wartości** - Wypunktowane kluczowe korzyści i przewagi
    konkurencyjne
-4. **Kluczowe Dane** - 3-5 najważniejszych danych/faktów ze strony 
+4. **Kluczowe Dane** - 3-5 najważniejszych danych/faktów ze strony
    (osiągnięcia, wielkość rynku, statystyki)
-5. **Kategorie/Obszary** - Podział treści na logiczne kategorie 
+5. **Kategorie/Obszary** - Podział treści na logiczne kategorie
    biznesowe/technologiczne
 6. **Kluczowe Ryzyka** - 2-3 potencjalne ryzyka wynikające z analizy treści
 
@@ -108,7 +108,7 @@ WYMAGANIA:
 - Długość: Zwięzłe, ale kompletne sekcje
 - Skupienie: Na kluczowych danych inwestycyjnych i korzyściach biznesowych
 
-Przeanalizuj podaną treść i wygeneruj broszurę zgodnie z powyższymi 
+Przeanalizuj podaną treść i wygeneruj broszurę zgodnie z powyższymi
 wytycznymi."""
 
 

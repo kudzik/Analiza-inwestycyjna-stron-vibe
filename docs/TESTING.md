@@ -299,6 +299,6 @@ self.assertTrue(condition, "Opis błędu")
 
 ---
 
-**Ostatnia aktualizacja**: 2024-01-XX  
+**Ostatnia aktualizacja**: 2025-10-01  
 **Wersja testów**: 1.0.0  
-**Autor**: Inwestor Pro Team
+**Autor**: Artur Kud (kudzik@outlook.com)

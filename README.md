@@ -109,6 +109,23 @@ wyniki/
 
 Pliki są zapisywane w katalogu `wyniki/YYYY-MM-DD/` gdzie `YYYY-MM-DD` to data generowania broszury.
 
+### Weryfikacja jakości
+
+Aplikacja została przetestowana na różnych typach stron internetowych:
+
+1. **Strony HTML** (example.com) - Standardowe strony internetowe
+2. **API JSON** (httpbin.org/json) - Strony zwracające dane JSON
+3. **Serwisy API** (jsonplaceholder.typicode.com) - Dokumentacja API
+4. **Literatura** (httpbin.org/html) - Strony z treścią literacką
+
+Wszystkie wygenerowane broszury spełniają wymagania:
+
+- ✅ **Ton sprzedażowy i perswazyjny**
+- ✅ **Wszystkie wymagane sekcje** (Tytuł, Podsumowanie, Propozycje Wartości, Kluczowe Dane, Kategorie, Ryzyka)
+- ✅ **Język polski**
+- ✅ **Format Markdown**
+- ✅ **Struktura katalogów z datą**
+
 ### Parametry
 
 | Parametr    | Typ    | Wymagany | Opis                                                     |
@@ -174,8 +191,8 @@ Projekt jest obecnie w fazie rozwoju MVP. Funkcjonalności są implementowane zg
 - ✅ **Faza 2**: Moduł interfejsu CLI
 - ✅ **Faza 3**: Moduł pobierania i czyszczenia danych
 - ✅ **Faza 4**: Moduł analizy (OpenAI API)
+- ✅ **Faza 5**: Generowanie wyniku i testowanie
 - ✅ **Testy**: Kompletny zestaw testów jednostkowych i integracyjnych
-- ⏳ **Faza 5**: Generowanie wyniku i testowanie
 
 ### Wkład w rozwój
 
@@ -291,7 +308,7 @@ MIT License - zobacz plik [LICENSE](LICENSE) dla szczegółów.
 
 - **Issues**: [GitHub Issues](https://github.com/your-username/Analiza-inwestycyjna-stron-vibe/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/your-username/Analiza-inwestycyjna-stron-vibe/discussions)
-- **Email**: team@inwestor-pro.com
+- **Email**: kudzik@outlook.com
 
 ## Changelog
 

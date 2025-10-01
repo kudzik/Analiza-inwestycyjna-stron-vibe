@@ -33,6 +33,7 @@ setup(
         "beautifulsoup4>=4.12.0",
         "openai>=1.0.0",
         "python-dotenv>=1.0.0",
+        "coverage>=7.0.0",
     ],
     entry_points={
         "console_scripts": [
@@ -41,7 +42,7 @@ setup(
     },
     keywords="investment analysis, web scraping, financial tools, AI",
     project_urls={
-        "Bug Reports": "https://github.com/your-username/inwestor-pro/issues",
-        "Source": "https://github.com/your-username/inwestor-pro",
+        "Bug Reports": "https://github.com/your-username/Analiza-inwestycyjna-stron-vibe/issues",
+        "Source": "https://github.com/your-username/Analiza-inwestycyjna-stron-vibe",
     },
 )
