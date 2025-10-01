@@ -4,7 +4,68 @@ alwaysApply: true
 
 # Zasady
 
-- Tylko jeden krok na raz
-- za każdym razem napisz wymagane testy do kazdej zaimplementowanej funkcjonalności
-- Uzupelniaj plik README.md
-- zawsze stosuj markdown zgodny z wszystkimi zasadami lintera, aby nie było błędów
+## 🎯 Zasady Ogólne
+
+### 1. **Jeden Krok na Raz (Single Responsibility)**
+
+- Implementuj tylko jedną funkcjonalność na raz
+- Każda zmiana powinna być atomowa i łatwa do cofnięcia
+- Komituj zmiany po każdej ukończonej funkcjonalności
+
+### 2. **Test-Driven Development (TDD)**
+
+- **ZAWSZE** pisz testy przed implementacją funkcjonalności
+- Pokrycie kodu testami musi wynosić minimum 90%
+- Testy jednostkowe dla każdej funkcji
+- Testy integracyjne dla przepływów biznesowych
+- Testy wydajności dla operacji I/O
+
+### 3. **Dokumentacja na Bieżąco**
+
+- Aktualizuj README.md po każdej znaczącej zmianie
+- Dokumentuj API w docstringach (format Google/NumPy)
+- Utrzymuj aktualny PRD.md i TODO.md
+- Dodawaj przykłady użycia do dokumentacji
+
+## 🔧 Zasady Techniczne
+
+### 4. **Jakość Kodu**
+
+- **Linting**: Wszystkie pliki muszą przechodzić pylint bez błędów
+- **Type Hints**: Używaj type hints dla wszystkich funkcji
+- **Error Handling**: Obsługuj wszystkie możliwe błędy gracefully
+- **Logging**: Używaj structured logging zamiast print()
+
+### 5. **Formatowanie i Styl**
+
+- **Markdown**: Zgodny z Markdownlint (MD013, MD033, MD041)
+- **Python**: Zgodny z PEP 8, Black formatter
+- **Commit Messages**: Conventional Commits (feat:, fix:, docs:, test:)
+- **Line Length**: Maksymalnie 79 znaków (Python), 80 znaków (Markdown)
+
+### 6. **Bezpieczeństwo i Wydajność**
+
+- **Secrets**: Nigdy nie commituj kluczy API, używaj .env
+- **Rate Limiting**: Implementuj rate limiting dla API calls
+- **Timeout**: Ustaw odpowiednie timeouty dla requestów
+- **Memory**: Monitoruj zużycie pamięci dla dużych stron
+
+## 📋 Proces Rozwoju
+
+### 7. **Workflow**
+
+1. **Plan**: Zdefiniuj zadanie w TODO.md
+2. **Test**: Napisz testy (red phase)
+3. **Code**: Implementuj funkcjonalność (green phase)
+4. **Refactor**: Ulepsz kod (refactor phase)
+5. **Document**: Zaktualizuj dokumentację
+6. **Review**: Self-review przed commitem
+
+### 8. **Code Review Checklist**
+
+- [ ] Czy kod jest czytelny i zrozumiały?
+- [ ] Czy wszystkie testy przechodzą?
+- [ ] Czy dokumentacja jest aktualna?
+- [ ] Czy nie ma duplikacji kodu?
+- [ ] Czy error handling jest kompletny?
+- [ ] Czy performance jest akceptowalny?
