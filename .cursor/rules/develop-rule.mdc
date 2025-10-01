@@ -1,0 +1,9 @@
+---
+alwaysApply: true
+---
+
+# Zasady
+
+- Tylko jeden krok na raz
+- za każdym razem napisz wymagane testy do kazdej zaimplementowanej funkcjonalności
+- Uzupelniaj plik README.md
