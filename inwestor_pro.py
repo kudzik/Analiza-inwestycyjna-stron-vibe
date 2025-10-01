@@ -186,13 +186,21 @@ Przyklady uzycia:
     )
 
     parser.add_argument(
-        "--output", help="Nazwa pliku wyjsciowego (domyslnie: broszura_[domena].md)"
+        "--output",
+        help="Nazwa pliku wyjsciowego (domyslnie: broszura_[domena].md)",
     )
 
     parser.add_argument(
         "--verbose",
         action="store_true",
         help="Wyswietl szczegolowe informacje o procesie",
+    )
+
+    parser.add_argument(
+        "--max-subpages",
+        type=int,
+        default=5,
+        help="Maksymalna liczba podstron do analizy (domyslnie: 5)",
     )
 
     args = parser.parse_args()
@@ -219,22 +227,61 @@ Przyklady uzycia:
         print("Blad: Nie udalo sie pobrac zawartosci strony.")
         return 1
 
-    # Wyczyść i ekstraktuj tekst
-    print("Czyszczenie i ekstraktowanie tekstu...")
-    clean_text = clean_and_extract_text(html_content, args.url)
+    # Znajdź linki do podstron
+    print("Wyszukiwanie linkow do podstron...")
+    subpage_links = find_subpage_links(html_content, args.url, args.max_subpages)
+    if subpage_links:
+        print(f"Znaleziono {len(subpage_links)} podstron do analizy:")
+        for i, link in enumerate(subpage_links, 1):
+            print(f"  {i}. {link}")
+    else:
+        print("Nie znaleziono podstron do analizy.")
 
-    if not clean_text:
+    # Wyczyść i ekstraktuj tekst z głównej strony
+    print("Czyszczenie i ekstraktowanie tekstu z glownej strony...")
+    main_clean_text = clean_and_extract_text(html_content, args.url)
+
+    if not main_clean_text:
         print("Blad: Nie udalo sie wyodrebnic tekstu ze strony.")
         return 1
 
-    print(f"Pobrano i wyczyszczono {len(clean_text)} znakow tekstu.")
+    # Pobierz zawartość z podstron
+    subpages_content = []
+    if subpage_links:
+        print("Pobieranie zawartosci z podstron...")
+        for i, subpage_url in enumerate(subpage_links, 1):
+            print(f"Pobieranie podstrony {i}/{len(subpage_links)}: {subpage_url}")
+            subpage_html = fetch_subpage_content(subpage_url)
+
+            if subpage_html:
+                subpage_text = clean_and_extract_text(subpage_html, subpage_url)
+                if subpage_text:
+                    subpages_content.append(subpage_text)
+                    print(f"  ✓ Pobrano {len(subpage_text)} znakow")
+                else:
+                    print("  ✗ Nie udalo sie wyodrebnic tekstu")
+                    subpages_content.append("")
+            else:
+                print("  ✗ Nie udalo sie pobrac zawartosci")
+                subpages_content.append("")
+
+    # Połącz treść z głównej strony i podstron
+    print("Laczenie tresci z wszystkich stron...")
+    combined_text = combine_content_from_pages(
+        main_clean_text, subpages_content, args.url
+    )
+
+    print(
+        f"Pobrano i wyczyszczono {len(combined_text)} znakow tekstu "
+        f"(glowna strona + {len(subpages_content)} podstron)."
+    )
 
     if args.verbose:
-        print(f"Przykladowy tekst: {clean_text[:200]}...")
+        print(f"Przykladowy tekst: {combined_text[:200]}...")
 
     # Generuj broszurę inwestycyjną
     print("Generowanie broszury inwestycyjnej...")
-    brochure = generate_brochure(clean_text, api_key)
+    brochure = generate_brochure(combined_text, api_key)
 
     if not brochure:
         print("Blad: Nie udalo sie wygenerowac broszury.")
@@ -287,6 +334,137 @@ def fetch_html(url: str, timeout: int = 30) -> Optional[str]:
     except Exception as e:
         print(f"Nieoczekiwany blad podczas pobierania strony: {e}")
         return None
+
+
+def find_subpage_links(html_content: str, base_url: str, max_links: int = 5) -> list:
+    """
+    Znajduje linki do podstron w obrębie tej samej domeny.
+
+    Args:
+        html_content: Zawartość HTML strony
+        base_url: Bazowy URL strony
+        max_links: Maksymalna liczba linków do pobrania (domyślnie 5)
+
+    Returns:
+        list: Lista URL podstron do analizy
+    """
+    if not html_content or not base_url:
+        return []
+
+    try:
+        soup = BeautifulSoup(html_content, "html.parser")
+        base_domain = urlparse(base_url).netloc
+        subpage_links = []
+
+        # Znajdź wszystkie linki
+        for link in soup.find_all("a", href=True):
+            href = link.get("href")
+            if not href:
+                continue
+
+            # Konwertuj względne linki na bezwzględne
+            absolute_url = urljoin(base_url, href)
+            parsed_url = urlparse(absolute_url)
+
+            # Sprawdź czy link jest w obrębie tej samej domeny
+            if (
+                parsed_url.netloc == base_domain
+                and parsed_url.path != urlparse(base_url).path
+                and not parsed_url.fragment  # Ignoruj linki z # (kotwice)
+                and not any(
+                    ext in parsed_url.path.lower()
+                    for ext in [
+                        ".pdf",
+                        ".jpg",
+                        ".png",
+                        ".gif",
+                        ".css",
+                        ".js",
+                        ".zip",
+                        ".doc",
+                        ".docx",
+                    ]
+                )
+            ):
+
+                subpage_links.append(absolute_url)
+
+                # Ogranicz liczbę linków
+                if len(subpage_links) >= max_links:
+                    break
+
+        # Usuń duplikaty zachowując kolejność
+        seen = set()
+        unique_links = []
+        for link in subpage_links:
+            if link not in seen:
+                seen.add(link)
+                unique_links.append(link)
+
+        return unique_links[:max_links]
+
+    except Exception as e:
+        print(f"Blad podczas wyszukiwania linkow do podstron: {e}")
+        return []
+
+
+def fetch_subpage_content(url: str, timeout: int = 30) -> Optional[str]:
+    """
+    Pobiera zawartość z podstrony.
+
+    Args:
+        url: URL podstrony do pobrania
+        timeout: Timeout w sekundach
+
+    Returns:
+        str: Zawartość HTML podstrony lub None w przypadku błędu
+    """
+    try:
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        }
+
+        response = requests.get(url, headers=headers, timeout=timeout)
+        response.raise_for_status()
+
+        # Sprawdź czy odpowiedź to HTML
+        content_type = response.headers.get("content-type", "").lower()
+        if "text/html" not in content_type:
+            return None
+
+        return response.text
+
+    except requests.exceptions.RequestException as e:
+        print(f"Blad podczas pobierania podstrony {url}: {e}")
+        return None
+    except Exception as e:
+        print(f"Nieoczekiwany blad podczas pobierania podstrony: {e}")
+        return None
+
+
+def combine_content_from_pages(
+    main_content: str, subpages_content: list, base_url: str
+) -> str:
+    """
+    Łączy treść z głównej strony i podstron.
+
+    Args:
+        main_content: Treść z głównej strony
+        subpages_content: Lista treści z podstron
+        base_url: Bazowy URL
+
+    Returns:
+        str: Połączona treść z wszystkich stron
+    """
+    combined_content = (
+        f"=== TREŚĆ GŁÓWNEJ STRONY ({base_url}) ===\n\n{main_content}\n\n"
+    )
+
+    for i, subpage_content in enumerate(subpages_content, 1):
+        if subpage_content:
+            combined_content += f"=== TREŚĆ PODSTRONY {i} ===\n\n{subpage_content}\n\n"
+
+    return combined_content
 
 
 def clean_and_extract_text(html_content: str, base_url: str = "") -> str:

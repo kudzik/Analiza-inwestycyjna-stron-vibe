@@ -9,6 +9,7 @@ Inwestor Pro to aplikacja CLI napisana w Pythonie, która automatycznie analizuj
 ## Funkcjonalności
 
 - **Web Scraping**: Pobieranie treści z pojedynczej strony internetowej
+- **Analiza podstron**: Automatyczne wykrywanie i pobieranie treści z podstron w obrębie tej samej domeny
 - **Czyszczenie danych**: Usuwanie elementów nawigacyjnych, reklam i nieistotnych treści
 - **Analiza AI**: Przetwarzanie przez OpenAI z perswazyjnym tonem
 - **Generowanie broszury**: Strukturalny plik Markdown z sekcjami:
@@ -77,16 +78,21 @@ python inwestor_pro.py --url https://example.com
 Aplikacja automatycznie:
 
 1. Pobiera zawartość strony internetowej
-2. Czyści HTML i ekstraktuje tekst
-3. Usuwa reklamy, skrypty i linki zewnętrzne
-4. Generuje broszurę inwestycyjną używając AI
-5. Zapisuje wynik do pliku w strukturze `wyniki/YYYY-MM-DD/`
+2. Wykrywa i pobiera treść z podstron w obrębie tej samej domeny
+3. Czyści HTML i ekstraktuje tekst z wszystkich stron
+4. Usuwa reklamy, skrypty i linki zewnętrzne
+5. Łączy treść z głównej strony i podstron
+6. Generuje broszurę inwestycyjną używając AI
+7. Zapisuje wynik do pliku w strukturze `wyniki/YYYY-MM-DD/`
 
 ### Zaawansowane opcje
 
 ```bash
 # Z niestandardową nazwą pliku wyjściowego
 python inwestor_pro.py --url https://startup.pl --output broszura_startup
+
+# Z ograniczeniem liczby podstron do analizy
+python inwestor_pro.py --url https://company.com --max-subpages 3
 
 # Z szczegółowymi informacjami o procesie
 python inwestor_pro.py --url https://company.com --verbose
@@ -128,11 +134,12 @@ Wszystkie wygenerowane broszury spełniają wymagania:
 
 ### Parametry
 
-| Parametr    | Typ    | Wymagany | Opis                                                     |
-| ----------- | ------ | -------- | -------------------------------------------------------- |
-| `--url`     | string | ✅       | URL strony internetowej do analizy                       |
-| `--output`  | string | ❌       | Nazwa pliku wyjściowego (domyślnie: `broszura_[domena]`) |
-| `--verbose` | flag   | ❌       | Wyświetl szczegółowe informacje o procesie               |
+| Parametr         | Typ    | Wymagany | Opis                                                     |
+| ---------------- | ------ | -------- | -------------------------------------------------------- |
+| `--url`          | string | ✅       | URL strony internetowej do analizy                       |
+| `--output`       | string | ❌       | Nazwa pliku wyjściowego (domyślnie: `broszura_[domena]`) |
+| `--max-subpages` | int    | ❌       | Maksymalna liczba podstron do analizy (domyślnie: 5)     |
+| `--verbose`      | flag   | ❌       | Wyświetl szczegółowe informacje o procesie               |
 
 ## Przykład wyjścia
 
