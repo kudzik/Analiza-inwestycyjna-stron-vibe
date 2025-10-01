@@ -9,6 +9,7 @@ Wersja: 1.0.0
 import os
 import sys
 import unittest
+from datetime import datetime
 from io import StringIO
 from unittest.mock import patch
 
@@ -23,6 +24,7 @@ from inwestor_pro import (  # noqa: E402
     is_valid_url,
     load_api_key,
     main,
+    save_markdown_file,
 )
 
 
@@ -394,6 +396,95 @@ class TestAIFunctions(unittest.TestCase):
         self.assertIsNone(result)
 
 
+class TestFileOperations(unittest.TestCase):
+    """Testy dla operacji na plikach."""
+
+    def setUp(self):
+        """Przygotowanie przed każdym testem."""
+        # Usuń katalog wyniki jeśli istnieje
+        import shutil
+
+        if os.path.exists("wyniki"):
+            shutil.rmtree("wyniki")
+
+    def tearDown(self):
+        """Czyszczenie po testach."""
+        # Usuń katalog wyniki po testach
+        import shutil
+
+        if os.path.exists("wyniki"):
+            shutil.rmtree("wyniki")
+
+    def test_save_markdown_file_success(self):
+        """Test pomyślnego zapisywania pliku."""
+        content = "# Test Broszura\n\nTo jest testowa broszura."
+        result = save_markdown_file("test_broszura", content)
+
+        self.assertTrue(result, "Plik powinien zostać zapisany pomyślnie")
+
+        # Sprawdź czy katalog został utworzony
+        today = datetime.now().strftime("%Y-%m-%d")
+        expected_dir = f"wyniki/{today}"
+        self.assertTrue(
+            os.path.exists(expected_dir), "Katalog powinien zostać utworzony"
+        )
+
+        # Sprawdź czy plik został utworzony
+        expected_file = f"{expected_dir}/test_broszura.md"
+        self.assertTrue(os.path.exists(expected_file), "Plik powinien zostać utworzony")
+
+        # Sprawdź zawartość pliku
+        with open(expected_file, "r", encoding="utf-8") as f:
+            file_content = f.read()
+        self.assertEqual(file_content, content, "Zawartość pliku powinna być poprawna")
+
+    def test_save_markdown_file_with_extension(self):
+        """Test zapisywania pliku z rozszerzeniem .md."""
+        content = "# Test Broszura\n\nTo jest testowa broszura."
+        result = save_markdown_file("test_broszura.md", content)
+
+        self.assertTrue(result, "Plik powinien zostać zapisany pomyślnie")
+
+        # Sprawdź czy plik został utworzony z poprawną nazwą
+        today = datetime.now().strftime("%Y-%m-%d")
+        expected_file = f"wyniki/{today}/test_broszura.md"
+        self.assertTrue(os.path.exists(expected_file), "Plik powinien zostać utworzony")
+
+    def test_save_markdown_file_empty_content(self):
+        """Test zapisywania pliku z pustą zawartością."""
+        result = save_markdown_file("empty_file", "")
+
+        self.assertTrue(result, "Plik powinien zostać zapisany pomyślnie")
+
+        # Sprawdź czy plik został utworzony
+        today = datetime.now().strftime("%Y-%m-%d")
+        expected_file = f"wyniki/{today}/empty_file.md"
+        self.assertTrue(os.path.exists(expected_file), "Plik powinien zostać utworzony")
+
+        # Sprawdź że plik jest pusty
+        with open(expected_file, "r", encoding="utf-8") as f:
+            file_content = f.read()
+        self.assertEqual(file_content, "", "Plik powinien być pusty")
+
+    @patch("pathlib.Path.mkdir")
+    def test_save_markdown_file_directory_error(self, mock_mkdir):
+        """Test obsługi błędu tworzenia katalogu."""
+        mock_mkdir.side_effect = OSError("Permission denied")
+
+        content = "# Test Broszura\n\nTo jest testowa broszura."
+        result = save_markdown_file("test_broszura", content)
+
+        self.assertFalse(result, "Funkcja powinna zwrócić False przy błędzie")
+
+    @patch("builtins.open", side_effect=IOError("Disk full"))
+    def test_save_markdown_file_write_error(self, mock_open):
+        """Test obsługi błędu zapisywania pliku."""
+        content = "# Test Broszura\n\nTo jest testowa broszura."
+        result = save_markdown_file("test_broszura", content)
+
+        self.assertFalse(result, "Funkcja powinna zwrócić False przy błędzie zapisu")
+
+
 class TestIntegration(unittest.TestCase):
     """Testy integracyjne."""
 
@@ -454,6 +545,7 @@ def run_tests():
     suite.addTests(loader.loadTestsFromTestCase(TestCLI))
     suite.addTests(loader.loadTestsFromTestCase(TestWebScraping))
     suite.addTests(loader.loadTestsFromTestCase(TestAIFunctions))
+    suite.addTests(loader.loadTestsFromTestCase(TestFileOperations))
     suite.addTests(loader.loadTestsFromTestCase(TestIntegration))
 
     # Uruchom testy

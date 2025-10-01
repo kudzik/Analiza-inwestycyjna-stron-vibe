@@ -11,6 +11,8 @@ import argparse
 import os
 import re
 import sys
+from datetime import datetime
+from pathlib import Path
 from typing import Optional
 from urllib.parse import urljoin, urlparse
 
@@ -37,6 +39,41 @@ def load_api_key() -> Optional[str]:
     except Exception as e:
         print(f"Blad podczas ladowania klucza API: {e}")
         return None
+
+
+def save_markdown_file(filename: str, content: str) -> bool:
+    """
+    Zapisuje broszurę do pliku w strukturze katalogów wyniki/YYYY-MM-DD/.
+
+    Args:
+        filename: Nazwa pliku (bez rozszerzenia)
+        content: Zawartość broszury do zapisania
+
+    Returns:
+        bool: True jeśli zapisano pomyślnie, False w przypadku błędu
+    """
+    try:
+        # Utwórz strukturę katalogów: wyniki/YYYY-MM-DD/
+        today = datetime.now().strftime("%Y-%m-%d")
+        output_dir = Path("wyniki") / today
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        # Utwórz pełną ścieżkę do pliku
+        if not filename.endswith(".md"):
+            filename += ".md"
+
+        output_path = output_dir / filename
+
+        # Zapisz plik
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write(content)
+
+        print(f"Broszura zapisana do pliku: {output_path}")
+        return True
+
+    except Exception as e:
+        print(f"Blad podczas zapisywania pliku: {e}")
+        return False
 
 
 def get_system_prompt() -> str:
@@ -205,15 +242,10 @@ Przyklady uzycia:
 
     # Zapisz broszurę do pliku
     output_filename = (
-        args.output or f"broszura_{urlparse(args.url).netloc.replace('.', '_')}.md"
+        args.output or f"broszura_{urlparse(args.url).netloc.replace('.', '_')}"
     )
 
-    try:
-        with open(output_filename, "w", encoding="utf-8") as f:
-            f.write(brochure)
-        print(f"Broszura zapisana do pliku: {output_filename}")
-    except Exception as e:
-        print(f"Blad podczas zapisywania pliku: {e}")
+    if not save_markdown_file(output_filename, brochure):
         return 1
 
     print("Broszura inwestycyjna zostala wygenerowana pomyslnie!")

@@ -79,13 +79,14 @@ Aplikacja automatycznie:
 1. Pobiera zawartość strony internetowej
 2. Czyści HTML i ekstraktuje tekst
 3. Usuwa reklamy, skrypty i linki zewnętrzne
-4. Wyświetla statystyki pobranego tekstu
+4. Generuje broszurę inwestycyjną używając AI
+5. Zapisuje wynik do pliku w strukturze `wyniki/YYYY-MM-DD/`
 
 ### Zaawansowane opcje
 
 ```bash
 # Z niestandardową nazwą pliku wyjściowego
-python inwestor_pro.py --url https://startup.pl --output broszura_startup.md
+python inwestor_pro.py --url https://startup.pl --output broszura_startup
 
 # Z szczegółowymi informacjami o procesie
 python inwestor_pro.py --url https://company.com --verbose
@@ -94,13 +95,27 @@ python inwestor_pro.py --url https://company.com --verbose
 python inwestor_pro.py --help
 ```
 
+### Struktura plików wyjściowych
+
+Aplikacja automatycznie tworzy strukturę katalogów:
+
+```
+wyniki/
+└── 2025-10-01/          # Data generowania
+    ├── broszura_example_com.md
+    ├── broszura_startup_pl.md
+    └── moja_broszura.md
+```
+
+Pliki są zapisywane w katalogu `wyniki/YYYY-MM-DD/` gdzie `YYYY-MM-DD` to data generowania broszury.
+
 ### Parametry
 
-| Parametr    | Typ    | Wymagany | Opis                                                        |
-| ----------- | ------ | -------- | ----------------------------------------------------------- |
-| `--url`     | string | ✅       | URL strony internetowej do analizy                          |
-| `--output`  | string | ❌       | Nazwa pliku wyjściowego (domyślnie: `broszura_[domena].md`) |
-| `--verbose` | flag   | ❌       | Wyświetl szczegółowe informacje o procesie                  |
+| Parametr    | Typ    | Wymagany | Opis                                                     |
+| ----------- | ------ | -------- | -------------------------------------------------------- |
+| `--url`     | string | ✅       | URL strony internetowej do analizy                       |
+| `--output`  | string | ❌       | Nazwa pliku wyjściowego (domyślnie: `broszura_[domena]`) |
+| `--verbose` | flag   | ❌       | Wyświetl szczegółowe informacje o procesie               |
 
 ## Przykład wyjścia
 
@@ -188,10 +203,10 @@ mypy inwestor_pro.py
 
 #### Wyniki testów
 
-- **✅ 31/31 testów przechodzi pomyślnie**
-- **📊 Pokrycie kodu: 91%**
-- **🎯 Główny moduł: 81% pokrycia**
-- **🧪 Testy: 96% pokrycia**
+- **✅ 36/36 testów przechodzi pomyślnie**
+- **📊 Pokrycie kodu: 92%**
+- **🎯 Główny moduł: 84% pokrycia**
+- **🧪 Testy: 97% pokrycia**
 
 #### Kategorie testów
 
@@ -225,7 +240,15 @@ mypy inwestor_pro.py
    - Obsługa błędów API
    - Walidacja danych wejściowych
 
-5. **Testy integracyjne** (2 testy)
+5. **Testy operacji na plikach** (5 testów)
+
+   - Zapisywanie plików w strukturze katalogów
+   - Tworzenie katalogów z datą
+   - Obsługa błędów zapisu
+   - Walidacja nazw plików
+   - Testy z różnymi typami zawartości
+
+6. **Testy integracyjne** (2 testy)
    - Import modułów
    - Struktura aplikacji
 
