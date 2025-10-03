@@ -16,6 +16,9 @@ from pathlib import Path
 from typing import Optional
 from urllib.parse import urljoin, urlparse
 
+import gradio as gr
+
+
 import openai
 import requests
 from bs4 import BeautifulSoup
